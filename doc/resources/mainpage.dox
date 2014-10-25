@@ -1,0 +1,95 @@
+/**
+\mainpage Storable Class Lib
+
+Hello everyone and welcome to the Storable Class lib documentation.
+The reason why I decided to create this library is because in many of my personal
+and working project I found myself in a situation where I have several instances 
+in a so called session (a collection of classes working for a goal, for example think
+of it like different part of a car which in the end makes the whole car, a video library and 
+so on).
+Then the user needs to be able to save and load the current state of the session, this mean there
+is a need for gather all the data of the classes save it , and later being able to re-instate all
+the classes with the correct data.
+
+The library is composed of several different parts and here I am going over them to give you and idea
+about the structure of the lib.
+
+*components
+*         -# Attributes
+*         -# Class
+*         -# Finder
+*         -# Manager
+
+
+\b Attributes
+First of all we have attribute classes.
+The most basic attribute is based on the concept of descriptor in python.
+I implemented already a couple of different attributes but the user can easily create new ones by sub-classing.
+The trick in using those attribute is that the class later knows how to dynamically find all of the and save 
+their value. This means that you can declare all the sensible data of the class as attributes and they will be 
+stored successfully, also beware that doesn't matter how you much you subclass, since the class will be looking
+for all the attributes inheriting from the abstract class Attribute.
+
+the class attributes \n
+\b Example:
+\code
+class BaseModule(st_class.StorableClass):
+    """
+    This is an abstract class used to implement standard
+    functionalities in all the moduels
+    """
+
+    base_name = ui_attr.StringUiAttr()
+    side = ui_attr.StringUiAttr()
+    instance_id = data_attr.DataAttr(["str","unicode"])
+    cnt_size = ui_attr.FloatUiAttr()
+
+    hook_data = data_attr.DataAttr(["dict"],{})
+	
+	...
+	
+\endcode
+
+This example is an extract of another project where this library has been successfully
+used.
+The class in the code is an abstract class where I use a series of attribute inherited
+from the Attribute class, they need to be declared between the class declaration
+and the constructor, in a "static way".
+
+
+\b Class
+The class is the holder for the attributes, although in order to use
+the attributes you dont have to use a class child of StorableClass,
+if you do so you will have some nice method that will let you save the 
+class with no extra effort. 
+For more information check the StorableClass documentation
+
+
+\b Finder
+The finder is in charge of scanning the given folder recursively
+and lets you easily to make instance of those classes
+
+
+\b Example:
+\code
+	#setup and config modules finder
+	##This is the finder of the manager
+	self.modules_finder = st_finder.Finder()
+	self.modules_finder.path = self.MODULES_PATH
+	self.modules_finder.files_to_exclude = self.__files_to_exclude
+	self.modules_finder.folders_to_eclude = self.__folders_to_eclude
+\endcode
+Again this is an extract of a project, here you can see how to setup a finder, once the finder is initialized you have methods to easily retrieve instances of the needed classes, check 
+Finder documentation for more information.
+This part is going to change in the future, thanks to my friend and mentor Leandro Pedroni that introduced me to the world of python plug-ins
+
+\b Manager
+Last component of the library is the StorableManager, which is in charge of putting togheter storable classes and finder,
+in this way will be easy to store and reload bunch of storable classes.
+
+for comments, critiques, questions or anything feel free to contact me at:
+marco(dot)giordano(dot)work(at)gmail(dot)com
+
+PS: Special thanks to my Python mentor Leandro Pedroni which is a freaking wiz!
+
+*/
