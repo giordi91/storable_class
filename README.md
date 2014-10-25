@@ -9,4 +9,4 @@ link to the doc : http://giordi91.github.io/
 You can see this library being succesfully used in the project AnimShader : https://github.com/giordi91/animShader
 
 Demo
-[![IMAGE DEMO](/doc/resources/demo.png)](https://vimeo.com/107648350)
+[![IMAGE DEMO](/doc/resources/demo.png)](https://vimeo.com/108295330)
