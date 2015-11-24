@@ -49,7 +49,6 @@ def save(stuff_to_save=None, path=None, start_path=None):
     @param path : where you want to save the file
     '''
     if not path :
-        from PySide import QtGui
         path = ensure_path(start_path)
     
     if path == "":

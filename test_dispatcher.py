@@ -8,12 +8,12 @@ import env_settings
 import autorig_settings
 '''
 import unittest
-import maya.standalone
+#import maya.standalone
 
 
 
 def main():
-    maya.standalone.initialize(name='python')
+    #maya.standalone.initialize(name='python')
     loader = unittest.TestLoader()
     #autorig_settings.testsPath,
     test_path =os.path.abspath(__file__).rsplit(os.path.sep,1)[0] + "/tests" 
