@@ -1,7 +1,6 @@
 import unittest
-from functools import partial
 
-import attribute
+from storable_class import attribute
 
 class Temp(object):
         def __init__(self, value):

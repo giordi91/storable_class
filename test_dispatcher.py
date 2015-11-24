@@ -16,7 +16,11 @@ def main():
     #maya.standalone.initialize(name='python')
     loader = unittest.TestLoader()
     #autorig_settings.testsPath,
-    test_path =os.path.abspath(__file__).rsplit(os.path.sep,1)[0] + "/tests" 
+    base_path =os.path.abspath(__file__).rsplit(os.path.sep,1)[0]  
+    test_path =base_path + "/tests" 
+    root_path = base_path.rsplit(os.path.sep,1)[0]
+    print root_path
+    sys.path.append(root_path)
     tests = loader.discover(test_path,  'test_*.py' )
     testRunner = unittest.runner.TextTestRunner(verbosity=2)
 

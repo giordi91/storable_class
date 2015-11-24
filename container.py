@@ -47,10 +47,11 @@ class Container(object):
     def get_attrs(cls):
         """
         This function is used to scan the class and find all the
-        shader_attr in the class, returns a dictonary where
+        attributes in the class, returns a dictonary where
         the key is the name of the attribute and the value
         is the instance of that attribute
         @param cls: the class instance to work on
+        @returns str[], a list of names of the different attributes
         """
 
         results = [a
