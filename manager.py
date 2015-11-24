@@ -5,10 +5,9 @@ for storable classes
 import os
 import imp
 
-
-from storable_class import st_class 
-from storable_class import st_attribute
-from storable_class import st_json_utils
+from storable_class import container 
+from storable_class import attribute
+from storable_class import json_utils
 
 class StorableManager(object):
     """
@@ -49,7 +48,7 @@ class StorableManager(object):
                     PySide browser
         """
         data = [my_class.get_data() for my_class in self.classes]
-        st_json_utils.save(data, path)
+        json_utils.save(data, path)
 
     def load_classes(self, finder, path=None ):
         """
@@ -61,7 +60,7 @@ class StorableManager(object):
                     PySide browser
         """
         self.classes = []
-        data = st_json_utils.load(path)
+        data = json_utils.load(path)
         for sub_data in data:
             my_class = self.instance_from_string(sub_data["type"], finder)
             if not my_class:

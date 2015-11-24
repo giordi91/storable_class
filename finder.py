@@ -4,10 +4,11 @@ This module holds a class used for the discovery of the files
 import os
 import imp
 
-from storable_class import st_class 
-from storable_class import st_attribute
+from storable_class import container 
+from storable_class import attribute
 
-class Finder(st_class.StorableClass):
+
+class Finder(container.Container):
     """
     @brief modules finder class
     This class is specialized in being able to find the modules 
@@ -29,22 +30,23 @@ class Finder(st_class.StorableClass):
     example:
     if we have a module called remote_server.py the corresponding class
     inside the module will be called RemoteServer.
+    Probably in the future that can be configured with a name mapping class/func
     """
     ##attribute holdings the start path for the scan
-    path = st_attribute.TypedAttr("str")
+    path = attribute.TypedAttr("str")
     ##this attribute holds the list of folders we want to exclude
     ##from the scan
-    folders_to_eclude = st_attribute.TypedAttr("list" , [])
+    folders_to_eclude = attribute.TypedAttr("list" , [])
     ##this attribute holds files we want to exclude from the scan
-    files_to_exclude = st_attribute.TypedAttr("list" , [])
+    files_to_exclude = attribute.TypedAttr("list" , [])
     ##feature not fully implemented yet, auto_update
-    auto_update = st_attribute.TypedAttr("bool" , False)
+    auto_update = attribute.TypedAttr("bool" , False)
 
     def __init__(self):
         """
         This is the constructor
         """
-        st_class.StorableClass.__init__(self)
+        container.Container.__init__(self)
 
         self.__available_files = []
         self.__files_dict = {}

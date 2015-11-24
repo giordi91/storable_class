@@ -4,16 +4,13 @@ load itself
 """
 import inspect
 
-from storable_class import st_attribute
-from storable_class import st_json_utils
+from storable_class import attribute
+from storable_class import json_utils
 
-class StorableClass(object):
+class Container(object):
     """
     @brief basic storable class
     """
-
-
-
     def get_data(self):
         """
         This function will gather all the needed data from 
@@ -59,7 +56,7 @@ class StorableClass(object):
         results = [a
                    for b in inspect.getmro(cls)[::-1]
                    for a, v in vars(b).items()
-                   if issubclass(type(v), st_attribute.Attribute)
+                   if issubclass(type(v), attribute.Attribute)
                    ]
         
         return results
@@ -73,7 +70,7 @@ class StorableClass(object):
         @param path : str, where to save the class
         """ 
         to_save = self.get_data()
-        st_json_utils.save(to_save, path)
+        json_utils.save(to_save, path)
 
 
     def load(self, path=None):
@@ -85,6 +82,6 @@ class StorableClass(object):
         """
         #read the data from file
         
-        data = st_json_utils.load(path)
+        data = json_utils.load(path)
         #set the data in the class
         self.set_data(data)
