@@ -4,7 +4,7 @@ import unittest
 from storable_class import attribute
 from storable_class import container
 
-
+import tempfile
 #Fixtures
 class TestClass(container.Container):
 
@@ -54,7 +54,15 @@ class TestGenericAttribute(unittest.TestCase):
 
 
     def test_set_data(self):
-        pass 
+        t= TestClass() 
+
+        data={"test": "x", "test2": 1, "test3" : False, "test4": 1.0}
+        t.set_data(data)
+
+        self.assertTrue(data["test"] == "x")
+        self.assertTrue(data["test2"] == 1)
+        self.assertTrue(data["test3"] == False)
+        self.assertTrue(data["test4"] == 1.0)
 
     def test_get_attributes(self):
 
@@ -66,6 +74,25 @@ class TestGenericAttribute(unittest.TestCase):
         self.assertTrue("child3" in attrs)
 
     def test_save_load_class(self):
-        pass
-    
-    
+         
+        t= TestClass() 
+        t.test = "x"
+        t.test2 = False
+        t.test3 = 2
+        t.test4 = 22234.342
+
+        temp_f = tempfile.NamedTemporaryFile()
+        t.save(temp_f.name)
+
+        t2 = TestClass()
+        t2.load(temp_f.name)
+
+
+        self.assertTrue(t.test == t2.test)
+        self.assertTrue(t.test2 == t2.test2)
+        self.assertTrue(t.test3 == t2.test3)
+        self.assertTrue(t.test4 == t2.test4)
+        
+        #no need for explicit closing of the file, will be done automatically when
+        #out of scope but just to clean up after myself i will do it
+        temp_f.close()
