@@ -136,12 +136,12 @@ class Finder(container.Container):
         for sub_res in res:
             if sub_res not in self.folders_to_eclude and \
             os.path.isdir(path + sub_res) == 1:
-                self.__check_path(path  + sub_res + "/")
+                self.__check_path(path  + sub_res + os.path.sep)
 
 
             if sub_res.find("py") != -1 and sub_res.find(".pyc") == -1 \
             and sub_res not in self.files_to_exclude:
                 if sub_res.find("reload") == -1:
                     to_return.append(sub_res)
-                    self.__files_dict[sub_res] = path +"/" + sub_res
+                    self.__files_dict[sub_res] = path + os.path.sep + sub_res
         self.__available_files += to_return

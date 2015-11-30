@@ -1,4 +1,3 @@
-
 import unittest
 
 from storable_class import attribute
