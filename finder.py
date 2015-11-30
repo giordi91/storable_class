@@ -129,7 +129,8 @@ class Finder(container.Container):
         This procedure checks a path for the py files and kicks the recursions
         @param path: str, the path that needs to be checked
         """
-
+        if not path.endswith( os.path.sep):
+            path += os.path.sep
         res = os.listdir(path)
         to_return = []
         for sub_res in res:
