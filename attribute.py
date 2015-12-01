@@ -130,3 +130,37 @@ class TypedAttr(GenericAttr):
             else:
                 return 1
 
+class DefaultFunAttr(TypedAttr):    
+    """
+    @brief This class implements type attribute
+
+    This attribute is needed for being able to return 
+    default values which are mutables, like a list of a dictionry.
+    Rather then setting that as default value in a TypedAttr , which we knows
+    leads to bugs and problems (like every list and dict default value), we instead
+    use a functon which generates a bispoke default value whenever is needed, in the case
+    of a list we can just pass the list and dict function
+    """
+    def __init__(self, data_type, default_function ):
+        """
+        Constructor
+        @param data_type: str,list, the supported data for this attribute
+        @param default_function: this is a function which has to be parametreless, 
+                                 (use partial to wrap arguments) which is in charge
+                                 to generate a default value for the attribute
+                        
+        """
+        TypedAttr.__init__(self,data_type, default_function)
+    
+    def __get__(self, instance, owner):
+        """
+        Getter function
+        @param instance: class, the instance we need the data of
+        @param owner the type class
+        """
+        if instance in self.data:
+            return self.data[instance]
+        else:
+            self.data[instance] = self.default()
+            return self.data[instance]
+

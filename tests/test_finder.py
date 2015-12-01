@@ -51,8 +51,8 @@ class TestFinder(unittest.TestCase):
         self.assertTrue("sub_second.py" in files)
 
     def test_folders_to_exclude(self):
-       
-        self.find.folders_to_eclude.append("sublevel")
+        
+        self.find.folders_to_esclude.append("sublevel")
         self.find.auto_update=True
         files = self.find.available_files
         
@@ -64,7 +64,7 @@ class TestFinder(unittest.TestCase):
         self.assertTrue("nested.py" in files)
         self.assertTrue("nested_skip1.py" in files)
 
-        self.find.folders_to_eclude.append("nested")
+        self.find.folders_to_esclude.append("nested")
         files = self.find.available_files
         
         self.assertTrue("classes.py" in files)
@@ -74,3 +74,18 @@ class TestFinder(unittest.TestCase):
         self.assertTrue("sub.py" not in files)
         self.assertTrue("nested.py" not in files)
         self.assertTrue("nested_skip1.py" not in files)
+
+    def test_files_to_exclude(self):
+        
+        self.find.files_to_exclude.append("__init__.py")
+        self.find.files_to_exclude.append("classes.py")
+        self.find.auto_update=True
+
+        files = self.find.available_files
+        self.assertTrue("classes.py" not in files)
+        self.assertTrue("find_me.py" in files)
+        self.assertTrue("me.rm" not in files)
+        self.assertTrue("sub_second.py"  in files)
+
+
+

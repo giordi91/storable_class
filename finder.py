@@ -36,9 +36,9 @@ class Finder(container.Container):
     path = attribute.TypedAttr("str")
     ##this attribute holds the list of folders we want to exclude
     ##from the scan
-    folders_to_eclude = attribute.TypedAttr("list" , [])
+    folders_to_esclude = attribute.DefaultFunAttr("list",list)
     ##this attribute holds files we want to exclude from the scan
-    files_to_exclude = attribute.TypedAttr("list" , [])
+    files_to_exclude = attribute.DefaultFunAttr("list",list)
     ##feature not fully implemented yet, auto_update
     auto_update = attribute.TypedAttr("bool" , False)
 
@@ -134,7 +134,7 @@ class Finder(container.Container):
         res = os.listdir(path)
         to_return = []
         for sub_res in res:
-            if sub_res not in self.folders_to_eclude and \
+            if sub_res not in self.folders_to_esclude and \
             os.path.isdir(path + sub_res) == 1:
                 self.__check_path(path  + sub_res + os.path.sep)
 
