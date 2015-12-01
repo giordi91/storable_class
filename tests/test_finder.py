@@ -87,5 +87,34 @@ class TestFinder(unittest.TestCase):
         self.assertTrue("me.rm" not in files)
         self.assertTrue("sub_second.py"  in files)
 
+    def test_files_dict(self):
 
+        files= self.find.files_dict
+        self.assertTrue("nested_skip2.py"  in files)
+        self.assertTrue("classes.py"  in files)
+        self.assertTrue("sub.py"  in files)
+
+        p = fixtures_path3 + os.path.sep + "sub_second.py"
+        self.assertTrue(files["sub_second.py"] == p)
+        p = fixtures_path2 + os.path.sep + "nested_skip2.py"
+        self.assertTrue(files["nested_skip2.py"] == p)
+        
+        p = fixtures_path1 + os.path.sep + "classes.py"
+        self.assertTrue(files["classes.py"] == p)
+    
+    def test_modules_dict(self):
+        
+         
+        modules= self.find.modules_dict
+        
+        self.assertTrue("NestedSkip2"  in modules)
+        self.assertTrue("SubSecond"  in modules)
+        self.assertTrue("Nested"  in modules)
+
+    def test_module_to_class_name(self):
+
+
+        self.assertTrue("NestedSkip2" == self.find.module_to_class_name("nested_skip_2"))
+        self.assertTrue("Nested" == self.find.module_to_class_name("nested"))
+        self.assertTrue("Sub" == self.find.module_to_class_name("sub"))
 
