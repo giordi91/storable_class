@@ -9,7 +9,7 @@ from storable_class import container
 from storable_class import attribute
 from storable_class import json_utils
 
-class StorableManager(object):
+class Manager(object):
     """
     @brief This is the manager class
     The manager class is in carge of putting togheter the finder and 

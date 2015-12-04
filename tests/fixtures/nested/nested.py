@@ -9,3 +9,7 @@ class Nested(container.Container):
     test3 = attribute.GenericAttr()
     test4 = attribute.TypedAttr(["float"],10.0)
 
+
+
+def get_instance():
+    return Nested()
