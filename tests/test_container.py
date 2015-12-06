@@ -80,7 +80,7 @@ class TestGenericAttribute(unittest.TestCase):
         t.test3 = 2
         t.test4 = 22234.342
 
-        temp_f = tempfile.NamedTemporaryFile()
+        temp_f = tempfile.NamedTemporaryFile(delete =False)
         t.save(temp_f.name)
 
         t2 = TestClass()
