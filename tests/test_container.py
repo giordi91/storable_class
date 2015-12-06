@@ -95,3 +95,31 @@ class TestGenericAttribute(unittest.TestCase):
         #no need for explicit closing of the file, will be done automatically when
         #out of scope but just to clean up after myself i will do it
         temp_f.close()
+
+    def test_recursive_class_extract_data(self):
+
+        class TestNestedClass(container.Container):
+
+            test = attribute.GenericAttr()
+            testNest = attribute.GenericAttr()
+            test2 = attribute.GenericAttr()
+            test3 = attribute.GenericAttr()
+            test4 = attribute.TypedAttr(["float"],10.0)
+
+        t = TestNestedClass()
+        t.testNest = TestNestedClass()
+        t.testNest.testNest = TestClass()
+
+        data = t.get_data()
+        container_key = container.Container.__dict__["__CONTAINER_KEYWORD__"] 
+        self.assertTrue(type(data["testNest"]) is dict)
+        self.assertTrue(container_key in data["testNest"].keys())
+        self.assertTrue(type(data["testNest"]["testNest"]) is dict)
+        self.assertTrue(container_key in data["testNest"]["testNest"].keys())
+
+        self.assertTrue(type(data["testNest"]["testNest"]) is dict)
+        self.assertTrue(container_key in data["testNest"]["testNest"].keys())
+        self.assertTrue(data["testNest"]["testNest"]["type"] == "TestClass")
+
+
+

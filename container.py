@@ -11,6 +11,7 @@ class Container(object):
     """
     @brief basic storable class
     """
+    __CONTAINER_KEYWORD__ = "__is_container__"
     def get_data(self):
         """
         This function will gather all the needed data from 
@@ -24,9 +25,18 @@ class Container(object):
         attrs_to_save = self.get_attrs()
         
         #Build the dict
-        to_return = dict((name, getattr(self, name)) for name in attrs_to_save)
+        #to_return = dict((name, getattr(self, name)) for name in attrs_to_save)
+        to_return= {}
         to_return["type"] = self.__class__.__name__
-        return to_return
+        for name in attrs_to_save:
+            value = getattr(self, name)
+            if issubclass(type(value), Container):
+                to_return[name] = value.get_data()     
+                to_return[name][self.__CONTAINER_KEYWORD__]= True
+            else:
+                to_return[name] = value
+        
+        return to_return 
 
     def set_data(self, data):
         """
@@ -53,7 +63,6 @@ class Container(object):
         @param cls: the class instance to work on
         @returns str[], a list of names of the different attributes
         """
-
         results = [a
                    for b in inspect.getmro(cls)[::-1]
                    for a, v in vars(b).items()
