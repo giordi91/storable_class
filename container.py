@@ -61,6 +61,9 @@ class Container(object):
                         finder):
 
                     #worth to check if the class is in there and throw an error?
+                    #here we crate on the fly an instance of the wanted class type
+                    #we kick the recursion by calling set data on that class with the dictionary
+                    #data, this will keep running until container classes are found
                     instance = finder.modules_dict[data[name]["type"]].get_instance()
                     instance.set_data(data[name],finder)
                     setattr(self, name, instance)
@@ -106,7 +109,6 @@ class Container(object):
                      provided a popup dialog browser will show up
         """
         #read the data from file
-        
         data = json_utils.load(path)
         #set the data in the class
         self.set_data(data)
