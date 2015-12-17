@@ -1,22 +1,17 @@
 import unittest
+import tempfile
+import os
 
 from storable_class import attribute
 from storable_class import container
-
-import tempfile
+from storable_class import finder 
+from fixtures.test_class import TestClass 
+from fixtures.child_class import ChildClass 
+from fixtures.test_nested_class import TestNestedClass
 #Fixtures
-class TestClass(container.Container):
+fixtures_path1 = os.path.dirname(os.path.abspath(__file__)) + os.path.sep + "fixtures"
 
-    test = attribute.GenericAttr()
-    test2 = attribute.GenericAttr()
-    test3 = attribute.GenericAttr()
-    test4 = attribute.TypedAttr(["float"],10.0)
 
-class ChildClass(TestClass):
-
-    child1= attribute.TypedAttr(["float"],10.0)
-    child2= attribute.TypedAttr(["int"],5)
-    child3= attribute.TypedAttr(["bool"],False)
 
 class TestGenericAttribute(unittest.TestCase):
 
@@ -98,13 +93,6 @@ class TestGenericAttribute(unittest.TestCase):
 
     def test_recursive_class_extract_data(self):
 
-        class TestNestedClass(container.Container):
-
-            test = attribute.GenericAttr()
-            testNest = attribute.GenericAttr()
-            test2 = attribute.GenericAttr()
-            test3 = attribute.GenericAttr()
-            test4 = attribute.TypedAttr(["float"],10.0)
 
         t = TestNestedClass()
         t.testNest = TestNestedClass()
@@ -112,6 +100,7 @@ class TestGenericAttribute(unittest.TestCase):
 
         data = t.get_data()
         container_key = container.Container.__dict__["__CONTAINER_KEYWORD__"] 
+        
         self.assertTrue(type(data["testNest"]) is dict)
         self.assertTrue(container_key in data["testNest"].keys())
         self.assertTrue(type(data["testNest"]["testNest"]) is dict)
@@ -120,6 +109,13 @@ class TestGenericAttribute(unittest.TestCase):
         self.assertTrue(type(data["testNest"]["testNest"]) is dict)
         self.assertTrue(container_key in data["testNest"]["testNest"].keys())
         self.assertTrue(data["testNest"]["testNest"]["type"] == "TestClass")
+    
+    def test_recursive_class_load_data(self):
 
+        t = TestNestedClass()
+        t.testNest = TestNestedClass()
+        t.testNest.testNest = TestClass()
 
+        data = t.get_data()
+        t.set_data(data)
 

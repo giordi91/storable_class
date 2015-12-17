@@ -6,11 +6,15 @@ import inspect
 
 from storable_class import attribute
 from storable_class import json_utils
+#from storable_class import finder 
+
+finder_class =None
 
 class Container(object):
     """
     @brief basic storable class
     """
+    ##Key tag used to mark the container
     __CONTAINER_KEYWORD__ = "__is_container__"
     def get_data(self):
         """
@@ -38,20 +42,27 @@ class Container(object):
         
         return to_return 
 
-    def set_data(self, data):
+    def set_data(self, data,finder =None):
         """
         This function tries to see what 
         atribute have matching keys in the data and then
         if found sets the value for that attribute
         @param data: dict, the dict previously generate from a
                      get_data() call
+        @param finder: Finder, optional finder class, this class need to be passed in 
+                       the case nested attribute data is expected, in this way we can create the
+                       needed instance on the fly and fill the data to it
         """
         attrs_to_load = self.get_attrs()
         for name in attrs_to_load:
             if name in data:
-                setattr(self, name, data[name])
+                if(type(data[name]) is dict and 
+                        (self.__CONTAINER_KEYWORD__ in data[name].keys()) and
+                        finder):
+                    print "found nested data ================================="
+                else:
+                    setattr(self, name, data[name])
         #to do logging if not possible to set
-
 
     @classmethod
     def get_attrs(cls):

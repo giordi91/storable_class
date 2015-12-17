@@ -68,7 +68,6 @@ class Finder(container.Container):
         
         return self.__available_files
 
-
     @property
     def files_dict(self):
         """
