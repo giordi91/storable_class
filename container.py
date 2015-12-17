@@ -59,7 +59,11 @@ class Container(object):
                 if(type(data[name]) is dict and 
                         (self.__CONTAINER_KEYWORD__ in data[name].keys()) and
                         finder):
-                    print "found nested data ================================="
+
+                    #worth to check if the class is in there and throw an error?
+                    instance = finder.modules_dict[data[name]["type"]].get_instance()
+                    instance.set_data(data[name],finder)
+                    setattr(self, name, instance)
                 else:
                     setattr(self, name, data[name])
         #to do logging if not possible to set

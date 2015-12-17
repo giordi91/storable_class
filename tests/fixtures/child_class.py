@@ -9,3 +9,5 @@ class ChildClass(TestClass):
     child2= attribute.TypedAttr(["int"],5)
     child3= attribute.TypedAttr(["bool"],False)
 
+def get_instance():
+    return ChildClass()

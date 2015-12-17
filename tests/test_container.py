@@ -111,11 +111,52 @@ class TestGenericAttribute(unittest.TestCase):
         self.assertTrue(data["testNest"]["testNest"]["type"] == "TestClass")
     
     def test_recursive_class_load_data(self):
+        
+        #this test just asserts it works and no error are thrown, later if we 
+        #add errors throwing if class not in finder we will try to catch it
 
         t = TestNestedClass()
         t.testNest = TestNestedClass()
         t.testNest.testNest = TestClass()
 
+        find = finder.Finder()
+        find.path = fixtures_path1
         data = t.get_data()
-        t.set_data(data)
+        t.set_data(data, find)
+    
+    def test_recursive_class_load_data_values(self):
 
+        t = TestNestedClass()
+        t.testNest = TestNestedClass()
+        t.testNest.testNest = TestClass()
+        
+        t.test2 = "foo"
+        t.test4 = 11.1
+        t.testNest.test = False
+        t.testNest.test4 = 1234.345
+        t.testNest.testNest.test4= 8.1
+        t.testNest.testNest.test2= 1
+        t.testNest.testNest.test3= True 
+
+        find = finder.Finder()
+        find.path = fixtures_path1
+        data = t.get_data()
+        
+        
+        t.test2 = "bar"
+        t.test4 = 0.1
+        t.testNest.test = True 
+        t.testNest.test4 = 9999.9 
+        t.testNest.testNest.test4= 4.9 
+        t.testNest.testNest.test2= 82 
+        t.testNest.testNest.test3 = False 
+        
+        t.set_data(data, find)
+
+        self.assertTrue(t.test2 == "foo")
+        self.assertTrue(t.test4 ==  11.1)
+        self.assertTrue(t.testNest.test == False)
+        self.assertTrue(t.testNest.test4 == 1234.345)
+        self.assertTrue(t.testNest.testNest.test4 == 8.1)
+        self.assertTrue(t.testNest.testNest.test2 == 1)
+        self.assertTrue(t.testNest.testNest.test3 == True)

@@ -9,4 +9,9 @@ class TestNestedClass(container.Container):
     test3 = attribute.GenericAttr()
     test4 = attribute.TypedAttr(["float"],10.0)
 
+    def __init__(self):
+        container.Container.__init__(self)
 
+
+def get_instance():
+    return TestNestedClass()
